@@ -1,0 +1,3 @@
+/home/lik3/projects/gamedev/asteroids/build/CMakeFiles/app.dir
+/home/lik3/projects/gamedev/asteroids/build/CMakeFiles/edit_cache.dir
+/home/lik3/projects/gamedev/asteroids/build/CMakeFiles/rebuild_cache.dir

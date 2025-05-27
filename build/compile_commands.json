@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/lik3/projects/gamedev/asteroids/build",
+  "command": "/usr/bin/c++  -I/home/lik3/projects/gamedev/asteroids/include  -o CMakeFiles/app.dir/src/entity.cpp.o -c /home/lik3/projects/gamedev/asteroids/src/entity.cpp",
+  "file": "/home/lik3/projects/gamedev/asteroids/src/entity.cpp",
+  "output": "CMakeFiles/app.dir/src/entity.cpp.o"
+},
+{
+  "directory": "/home/lik3/projects/gamedev/asteroids/build",
+  "command": "/usr/bin/c++  -I/home/lik3/projects/gamedev/asteroids/include  -o CMakeFiles/app.dir/src/main.cpp.o -c /home/lik3/projects/gamedev/asteroids/src/main.cpp",
+  "file": "/home/lik3/projects/gamedev/asteroids/src/main.cpp",
+  "output": "CMakeFiles/app.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/lik3/projects/gamedev/asteroids/build",
+  "command": "/usr/bin/c++  -I/home/lik3/projects/gamedev/asteroids/include  -o CMakeFiles/app.dir/src/render_window.cpp.o -c /home/lik3/projects/gamedev/asteroids/src/render_window.cpp",
+  "file": "/home/lik3/projects/gamedev/asteroids/src/render_window.cpp",
+  "output": "CMakeFiles/app.dir/src/render_window.cpp.o"
+}
+]
