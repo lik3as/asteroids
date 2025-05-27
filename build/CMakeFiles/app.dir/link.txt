@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/app.dir/link.d CMakeFiles/app.dir/src/entity.cpp.o CMakeFiles/app.dir/src/main.cpp.o CMakeFiles/app.dir/src/render_window.cpp.o -o /home/lik3/projects/gamedev/asteroids/bin/app  -lSDL3 -lSDL3_image

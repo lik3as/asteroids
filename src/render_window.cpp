@@ -20,13 +20,13 @@ SDL_Texture* RenderWindow::loadTexture(const char* filepath) {
 
 void RenderWindow::render(const Entity& e) {
 	SDL_FRect src;
-	src = e.currentFrame;
+	src = e.getFrame();
 
 	SDL_FRect dst;
-	dst.x = e.currentFrame.x * 8;
-	dst.y = e.currentFrame.y * 8;
-	dst.w = e.currentFrame.w * 8;
-	dst.h = e.currentFrame.h * 8;
+	dst.x = e.getPos().x * 8;
+	dst.y = e.getPos().y * 8;
+	dst.w = e.getFrame().w * 8;
+	dst.h = e.getFrame().h * 8;
 	SDL_RenderTexture(renderer, e.getTexture(), &src, &dst);
 }
 
@@ -43,3 +43,9 @@ void RenderWindow::display() {
 	SDL_RenderPresent(renderer);
 }
 
+int RenderWindow::getRefreshRate() {
+	int displayID = SDL_GetDisplayForWindow(window);
+	const SDL_DisplayMode* mode = SDL_GetDesktopDisplayMode(displayID);
+
+	return mode->refresh_rate;
+}

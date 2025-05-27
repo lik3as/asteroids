@@ -13,13 +13,13 @@
 
 class Engine {
 	public:
-		Engine(const char* title);
+		Engine();
 		void run();
 	private:
-		Player player;
 		SDL_Event ev;
-		RenderWindow window;
-		bool gameIsRunning;
+		Player player;
+		static RenderWindow window;
+		static bool gameIsRunning;
 		void handleEvents();
 		void update(float dt);
 };

@@ -1,12 +1,10 @@
 #include "Engine.hpp"
 
-Engine::Engine(const char* title)
-:window(title, WINDOW_WIDTH, WINDOW_HEIGHT), player(NULL){
-	SDL_Texture* tex = window.loadTexture("res/gfx/spaceship.png");
-	player = Player(tex);
+RenderWindow Engine::window = RenderWindow("ASTEROIDS V.0", WINDOW_WIDTH, WINDOW_HEIGHT);
+bool Engine::gameIsRunning = true;
 
-	gameIsRunning = true;
-}
+Engine::Engine()
+:player(Vector2f(0.0f, 0.0f), window.loadTexture("res/gfx/spaceship.png")){}
 
 void Engine::run() {
 	float accumulator = 0.0f;
@@ -14,10 +12,11 @@ void Engine::run() {
 
 	while (gameIsRunning) {
 		Uint64 lastTicks = SDL_GetTicks();
-		float dt = (float) (lastTicks - prevTicks) / 100.0f;
+		float dt = (float) ((lastTicks / 1000.0f) - (prevTicks / 1000.0f));
 
-		prevTicks = SDL_GetTicks();
+		//std::cout << (float) (lastTicks / 1000.0f) - (float) prevTicks/  1000.0f  << std::endl;
 		accumulator += dt;
+		prevTicks = SDL_GetTicks();
 	
 		while(accumulator >= TIME_STEP) {
 			handleEvents();
@@ -28,6 +27,12 @@ void Engine::run() {
 		window.clear();
 		window.render(player);
 		window.display();
+		
+		int minimum = 1000 / window.getRefreshRate(); //milliseconds
+		int fTicks = SDL_GetTicks() - lastTicks;
+		if (fTicks < minimum) {
+			SDL_Delay(minimum - fTicks);
+		}
 	}
 	
 	std::cout << "game Is Not Running!!" << std::endl;
@@ -43,35 +48,53 @@ void Engine::handleEvents() {
 	}
 
 	const bool* kEvent = SDL_GetKeyboardState(NULL);
-	player.speed = Vector2f(0.0f, 0.0f);
+	player.velocity = Vector2f(0.0f, 0.0f);
+	player.setSprite(0, 0);
 
-	if (kEvent[SDL_SCANCODE_UP] || kEvent[SDL_SCANCODE_W]) {
-		player.speed = Vector2f(0.0f, -5.0f);
+	if (kEvent[SDL_SCANCODE_W]) {
+		player.velocity = Vector2f(0.0f, -15.0f);
+		player.setSprite(32, 0);
 	}
-	if (kEvent[SDL_SCANCODE_DOWN] || kEvent[SDL_SCANCODE_S]) {
-		player.speed = Vector2f(0.0f, 5.0f);
+	if (kEvent[SDL_SCANCODE_S]) {
+		player.velocity = Vector2f(0.0f, 15.0f);
 	}
-	if (kEvent[SDL_SCANCODE_LEFT] || kEvent[SDL_SCANCODE_A]) {
-		player.speed = Vector2f(-5.0f, 0.0f);
+	if (kEvent[SDL_SCANCODE_A]) {
+		player.velocity = Vector2f(-15.0f, 0.0f);
 	}
-	if (kEvent[SDL_SCANCODE_RIGHT] || kEvent[SDL_SCANCODE_D]) {
-		player.speed = Vector2f(5.0f, 0.0f);
+	if (kEvent[SDL_SCANCODE_D]) {
+		player.velocity = Vector2f(15.0f, 0.0f);
+	}
+	if (kEvent[SDL_SCANCODE_SPACE]) {
+		player.setSprite(16, 0);
+	}
+	if (kEvent[SDL_SCANCODE_W] && kEvent[SDL_SCANCODE_D]) {
+		player.velocity = Vector2f(15.0f, -15.0f);
+	}
+	if (kEvent[SDL_SCANCODE_W] && kEvent[SDL_SCANCODE_A]) {
+		player.velocity = Vector2f(-15.0f, -15.0f);
+	}
+	if (kEvent[SDL_SCANCODE_S] && kEvent[SDL_SCANCODE_A]) {
+		player.velocity = Vector2f(-15.0f, 15.0f);
+	}
+	if (kEvent[SDL_SCANCODE_S] && kEvent[SDL_SCANCODE_D]) {
+		player.velocity = Vector2f(15.0f, 15.0f);
 	}
 }
 
 void Engine::update(float dt) {
-	std::cout << dt << std::endl;
-	player.currentFrame.x += (int) (10 * player.speed.x * dt);
-	player.currentFrame.y += (int) (10 * player.speed.y * dt);
+	player.setPos(player.getPos() + Vector2f(	
+	(float) (player.velocity.x * dt),
+	(float) (player.velocity.y * dt)
+	));
 
-	if (player.currentFrame.x < 0) player.currentFrame.x = 0;
-	if (player.currentFrame.y < 0) player.currentFrame.y = 0;
+	if (player.getPos().x < 0) player.setPos(Vector2f(0, player.getPos().y));
+	if (player.getPos().y < 0) player.setPos(Vector2f(player.getPos().x, 0));
 	
-	if (player.currentFrame.x + player.currentFrame.w > WINDOW_WIDTH) {
-		player.currentFrame.x = WINDOW_WIDTH - player.currentFrame.w;
+	if (player.getPos().x + player.getFrame().w > WINDOW_WIDTH) {
+		player.setPos(Vector2f(WINDOW_WIDTH - player.getFrame().w, player.getPos().y));
 	}
-	if (player.currentFrame.y + player.currentFrame.h > WINDOW_HEIGHT) {
-		player.currentFrame.y = WINDOW_HEIGHT - player.currentFrame.h;
+	if (player.getPos().y + player.getFrame().h > WINDOW_HEIGHT) {
+		player.setPos(Vector2f(player.getPos().x, WINDOW_HEIGHT - player.getFrame().h));
 	}
 
 }

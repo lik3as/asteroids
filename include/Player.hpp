@@ -7,7 +7,7 @@
 class Player : public Entity {
 	public:
 		using Entity::Entity;
-		Vector2f speed;
+		Vector2f velocity;
 	private:
 };
 

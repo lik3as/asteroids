@@ -14,6 +14,7 @@ class RenderWindow {
 		void cleanUp();
 		void clear();
 		void display();
+		int getRefreshRate();
 	private:
 		int w, h;
 		SDL_Window *window;

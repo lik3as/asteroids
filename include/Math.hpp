@@ -10,10 +10,12 @@ class Vector2f {
 		: x(0.0f), y(0.0f){}
 		Vector2f(float x, float y)
 		: x(x), y(y){}
-		inline Vector2f& operator+=(const Vector2f& other) {
-			this->x += other.x;
-			this->y += other.y;
-			return *this;
+
+		Vector2f operator+(const Vector2f& vec) {
+			Vector2f res;
+			res.x = x + vec.x;
+			res.y = y + vec.y;
+			return res;
 		}
 		
 		void print() {

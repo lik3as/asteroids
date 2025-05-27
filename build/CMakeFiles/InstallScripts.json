@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/lik3/projects/gamedev/asteroids/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
