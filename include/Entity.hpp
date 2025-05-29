@@ -8,7 +8,7 @@
 class Entity {
 	public:
 		Entity(const Vector2f&& cut, SDL_Texture* tex);
-		void setPos(Vector2f pos);
+		void setPos(Vector2f&& pos);
 		void setSprite(int x, int y);
 		SDL_Texture* const getTexture() const;
 		Vector2f getPos() const;

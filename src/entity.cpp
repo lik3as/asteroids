@@ -9,8 +9,8 @@ Entity::Entity(const Vector2f&& cut, SDL_Texture* tex)
 	frame.h = 16;
 }
 
-void Entity::setPos(Vector2f pos) {
-	this->pos = pos;
+void Entity::setPos(Vector2f&& pos) {
+	this->pos = std::move(pos);
 }
 
 void Entity::setSprite(int x, int y) {

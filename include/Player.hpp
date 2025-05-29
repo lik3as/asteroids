@@ -7,8 +7,11 @@
 class Player : public Entity {
 	public:
 		using Entity::Entity;
-		Vector2f velocity;
+		bool shooting = false;
+		void setVelocity(Vector2f&& vec);
+		const Vector2f& getVelocity() const;
 	private:
+		Vector2f velocity;
 };
 
 #endif

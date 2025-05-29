@@ -48,53 +48,28 @@ void Engine::handleEvents() {
 	}
 
 	const bool* kEvent = SDL_GetKeyboardState(NULL);
-	player.velocity = Vector2f(0.0f, 0.0f);
-	player.setSprite(0, 0);
-
-	if (kEvent[SDL_SCANCODE_W]) {
-		player.velocity = Vector2f(0.0f, -15.0f);
-		player.setSprite(32, 0);
-	}
-	if (kEvent[SDL_SCANCODE_S]) {
-		player.velocity = Vector2f(0.0f, 15.0f);
-	}
-	if (kEvent[SDL_SCANCODE_A]) {
-		player.velocity = Vector2f(-15.0f, 0.0f);
-	}
-	if (kEvent[SDL_SCANCODE_D]) {
-		player.velocity = Vector2f(15.0f, 0.0f);
-	}
-	if (kEvent[SDL_SCANCODE_SPACE]) {
-		player.setSprite(16, 0);
-	}
-	if (kEvent[SDL_SCANCODE_W] && kEvent[SDL_SCANCODE_D]) {
-		player.velocity = Vector2f(15.0f, -15.0f);
-	}
-	if (kEvent[SDL_SCANCODE_W] && kEvent[SDL_SCANCODE_A]) {
-		player.velocity = Vector2f(-15.0f, -15.0f);
-	}
-	if (kEvent[SDL_SCANCODE_S] && kEvent[SDL_SCANCODE_A]) {
-		player.velocity = Vector2f(-15.0f, 15.0f);
-	}
-	if (kEvent[SDL_SCANCODE_S] && kEvent[SDL_SCANCODE_D]) {
-		player.velocity = Vector2f(15.0f, 15.0f);
-	}
+	player.setVelocity(
+		Vector2f(
+			(15.0f * (kEvent[SDL_SCANCODE_D] - kEvent[SDL_SCANCODE_A])),
+			(15.0f * (kEvent[SDL_SCANCODE_W] - kEvent[SDL_SCANCODE_S]) * -1)
+		)
+	);
 }
 
 void Engine::update(float dt) {
-	player.setPos(player.getPos() + Vector2f(	
-	(float) (player.velocity.x * dt),
-	(float) (player.velocity.y * dt)
+	player.setPos(player.getPos() + Vector2f(
+		(float) (player.getVelocity().x * dt),
+		(float) (player.getVelocity().y * dt)
 	));
 
 	if (player.getPos().x < 0) player.setPos(Vector2f(0, player.getPos().y));
 	if (player.getPos().y < 0) player.setPos(Vector2f(player.getPos().x, 0));
 	
-	if (player.getPos().x + player.getFrame().w > WINDOW_WIDTH) {
-		player.setPos(Vector2f(WINDOW_WIDTH - player.getFrame().w, player.getPos().y));
+	if ((player.getPos().x * 10) + player.getFrame().w > WINDOW_WIDTH) {
+		player.setPos(Vector2f((WINDOW_WIDTH / 10) - player.getFrame().w, player.getPos().y));
 	}
-	if (player.getPos().y + player.getFrame().h > WINDOW_HEIGHT) {
-		player.setPos(Vector2f(player.getPos().x, WINDOW_HEIGHT - player.getFrame().h));
+	if ((player.getPos().y * 10) + player.getFrame().h > WINDOW_HEIGHT) {
+		player.setPos(Vector2f(player.getPos().x, (WINDOW_HEIGHT / 10) - player.getFrame().h));
 	}
 
 }

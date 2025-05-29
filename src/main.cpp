@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 		std::cout << SDL_GetError() << std::endl;
 	}
 
-	Engine engine = Engine();
+	Engine engine;
 	engine.run();
 	
 	return 0;
