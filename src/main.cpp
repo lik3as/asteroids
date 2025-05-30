@@ -1,7 +1,7 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 
-#include "Engine.hpp"
+#include "Game.hpp"
 
 #define TIME_STEP 0.017f
 
@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 		std::cout << SDL_GetError() << std::endl;
 	}
 
-	Engine engine;
+	Game engine;
 	engine.run();
 	
 	return 0;

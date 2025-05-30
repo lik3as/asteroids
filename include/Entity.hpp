@@ -7,15 +7,21 @@
 
 class Entity {
 	public:
-		Entity(const Vector2f&& cut, SDL_Texture* tex);
-		void setPos(Vector2f&& pos);
-		void setSprite(int x, int y);
+		Entity(const Vector2<int>&& cut, SDL_Texture* tex);
+		virtual void update(float dt) = 0;
+		virtual void reactTo(const bool* kEvent) = 0;
+
+		void setPos(Vector2<float>&& pos);
+		Vector2<float> getPos() const;
 		SDL_Texture* const getTexture() const;
-		Vector2f getPos() const;
 		const SDL_FRect& getFrame() const;
+
+		virtual ~Entity();
+	protected:
+		void setSprite(int x, int y);
 	private:
 		SDL_FRect frame;
-		Vector2f pos;
+		Vector2<float> pos;
 		SDL_Texture* tex;
 		
 };

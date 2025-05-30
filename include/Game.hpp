@@ -2,26 +2,25 @@
 #define ENGINE
 
 #include <SDL3/SDL.h>
+#include <vector>
 
+#include "Constants.hpp"
 #include "RenderWindow.hpp"
 #include "Player.hpp"
 #include "Math.hpp"
+#include "Entity.hpp"
 
-#define TIME_STEP 0.017f
-#define WINDOW_WIDTH 1080
-#define WINDOW_HEIGHT 720
-
-class Engine {
+class Game {
 	public:
-		Engine();
+		Game();
 		void run();
+		~Game();
 	private:
 		SDL_Event ev;
-		Player player;
+		static std::vector<Entity*> entities;
 		static RenderWindow window;
 		static bool gameIsRunning;
 		void handleEvents();
-		void update(float dt);
 };
 
 #endif

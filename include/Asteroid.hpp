@@ -3,8 +3,8 @@
 
 #include <Entity.hpp>
 
-class Asteroid : Entity {
-
+class Asteroid : public Entity {
+	
 };
 
 #endif
