@@ -23,10 +23,10 @@ void RenderWindow::render(const Entity& e) {
 	src = e.getFrame();
 
 	SDL_FRect dst;
-	dst.x = e.getPos().x * PIXEL_SCALE;
-	dst.y = e.getPos().y * PIXEL_SCALE;
-	dst.w = e.getFrame().w * PIXEL_SCALE;
-	dst.h = e.getFrame().h * PIXEL_SCALE;
+	dst.x = e.getPos().x;
+	dst.y = e.getPos().y;
+	dst.w = e.getSFrame().w;
+	dst.h = e.getSFrame().h;
 	SDL_RenderTexture(renderer, e.getTexture(), &src, &dst);
 }
 
@@ -35,10 +35,10 @@ void RenderWindow::render(const Entity& e, const double& angle) {
 	src = e.getFrame();
 
 	SDL_FRect dst;
-	dst.x = e.getPos().x * PIXEL_SCALE;
-	dst.y = e.getPos().y * PIXEL_SCALE;
-	dst.w = e.getFrame().w * PIXEL_SCALE;
-	dst.h = e.getFrame().h * PIXEL_SCALE;
+	dst.x = e.getPos().x;
+	dst.y = e.getPos().y;
+	dst.w = e.getSFrame().w;
+	dst.h = e.getSFrame().h;
 	SDL_RenderTextureRotated(renderer, e.getTexture(), &src, &dst, angle, NULL, SDL_FLIP_NONE);
 }
 

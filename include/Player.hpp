@@ -3,11 +3,11 @@
 
 #include <cmath>
 
-#include "Constants.hpp"
 #include "Entity.hpp"
 #include "Math.hpp"
+#include "Collider.hpp"
 
-class Player : public Entity {
+class Player : public Entity, public ICollider {
 	public:
 		using Entity::Entity;
 		bool shooting = false;
@@ -15,9 +15,12 @@ class Player : public Entity {
 		const Vector2<float>& getVelocity() const;
 		void update(float dt) override;
 		void reactToEvent(const bool* kEvent) override;
+		bool checkAABB(const Entity&) const override;
 
 		~Player();
 	private:
+		void updateBB() override;
+
 		Vector2<float> velocity;
 };
 

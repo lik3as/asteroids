@@ -46,8 +46,8 @@ class Vector2 {
 
 		Vector2<T> operator*(int&& scalar) {
 			Vector2<T> res;
-			res.x = x * scalar;
-			res.y = y * scalar;
+			res.x = (T) x * scalar;
+			res.y = (T) y * scalar;
 			return res;
 		}
 

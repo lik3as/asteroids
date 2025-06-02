@@ -9,6 +9,8 @@
 #include "Player.hpp"
 #include "Entity.hpp"
 #include "Math.hpp"
+#include "Asteroid.hpp"
+#include "Collider.hpp"
 
 class Game {
 	public:
@@ -20,6 +22,8 @@ class Game {
 		static std::vector<Entity*> entities;
 		static RenderWindow window;
 		static bool gameIsRunning;
+
+		void handleCollisions(ICollider&);
 		void handleEvents();
 };
 

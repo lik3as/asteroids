@@ -8,7 +8,13 @@ bool Game::gameIsRunning = true;
 Game::Game()
 {	
 	entities.push_back(
-		new Player(Vector2<int>(0, 0), window.loadTexture("res/gfx/spaceship.png"))//already an rvalue!
+		new Player(0, 0, window.loadTexture("res/gfx/spaceship.png"))//already an rvalue!
+	);
+
+	auto asteroid = new Asteroid(0,0, window.loadTexture("res/gfx/asteroid.png"));
+	asteroid->setPos(Vector2<float>(WINDOW_HEIGHT / 2, WINDOW_HEIGHT / 2));
+	entities.push_back(
+			std::move(asteroid)
 	);
 }
 
@@ -28,8 +34,12 @@ void Game::run() {
 		while(accumulator >= TIME_STEP) {
 			handleEvents();
 
-			for (Entity* e : this-> entities) {
+			for (Entity* e : this->entities) {
 				e->update(dt);
+				ICollider* col = dynamic_cast<ICollider*>(e); //upcasting
+				if (col){
+					handleCollisions(*col);
+				}
 			}
 			accumulator -= TIME_STEP;
 		}
@@ -46,8 +56,8 @@ void Game::run() {
 			} else {
 				window.render(*e); //less cpu usage SDL_RenderTexture
 			}
-			char bufX[20];	
-			char bufY[20];	
+			char bufX[20];
+			char bufY[20];
 			bufX[0] = 'X';
 			bufX[1] = ':';
 			bufX[2] = ' ';
@@ -71,6 +81,15 @@ void Game::run() {
 	std::cout << "game Is Not Running!!" << std::endl;
 	window.cleanUp();
 	SDL_Quit();
+}
+
+void Game::handleCollisions(ICollider& col) {
+	for (Entity* e : entities) {
+		ICollider* colB = dynamic_cast<ICollider*>(e);
+		if (colB && &col != colB) {
+			col.checkAABB(*e);
+		}
+	}
 }
 
 void Game::handleEvents() {

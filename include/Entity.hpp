@@ -3,22 +3,33 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_image.h>
+
+#include "Constants.hpp"
 #include "Math.hpp"
+
+typedef struct {
+	Point<float> min;
+	Point<float> max;
+} BoundingBox;
 
 class Entity {
 	public:
-		Entity(const Vector2<int>&& cut, SDL_Texture* tex);
+		Entity(int cropX, int cropY, SDL_Texture* tex);
 		virtual void update(float dt) = 0;
 		virtual void reactToEvent(const bool* kEvent) = 0;
 
 		void setPos(Vector2<float>&& pos);
 		Vector2<float> getPos() const;
 		SDL_Texture* const getTexture() const;
-		const SDL_FRect& getFrame() const;
+		SDL_FRect getFrame() const;
+		SDL_FRect getSFrame() const;
+
+		double rotation = 0.0f;
+		BoundingBox bb;
 
 		virtual ~Entity();
-		double rotation = 0.0f;
 	protected:
+		virtual void updateBB();
 		void setSprite(int x, int y);
 	private:
 		SDL_FRect frame;

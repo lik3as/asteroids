@@ -1,13 +1,12 @@
 #include "Player.hpp"
 
-void Player::setVelocity(Vector2<float>&& m_vec) {
-	this->velocity = std::move(m_vec);
+void Player::setVelocity(Vector2<float>&& p_vec) {
+	this->velocity = std::move(p_vec);
 	
-	m_vec.x = 0;
-	m_vec.y = 0;
+	p_vec.x = 0;
+	p_vec.y = 0;
 	
 	int x = 0;
-	double roatation = 0;
 	auto& vel = this->velocity;
 
 	if (vel.tendingTo(UP)) {
@@ -17,7 +16,7 @@ void Player::setVelocity(Vector2<float>&& m_vec) {
 	if (vel.tendingTo(RIGHT)) {
 		rotation = 90.0f;
 		x = 32;
-	}
+		}
 	if (vel.tendingTo(RIGHT) && vel.tendingTo(UP)) {
 		rotation = 45.0f;
 	}
@@ -27,10 +26,6 @@ void Player::setVelocity(Vector2<float>&& m_vec) {
 	}
 	if (vel.tendingTo(LEFT) && vel.tendingTo(UP)) {
 		rotation = -45.0f;
-	}
-	if (vel.tendingTo(REST)) {
-		x = 0;
-		rotation = 0;
 	}
 	if (vel.tendingTo(DOWN)) {
 		x = 32;
@@ -48,7 +43,6 @@ void Player::setVelocity(Vector2<float>&& m_vec) {
 
 	x += (this->shooting * 16);
 	this->setSprite(x, 0);
-	this->rotation = rotation;
 }
 
 const Vector2<float>& Player::getVelocity() const {
@@ -67,14 +61,14 @@ void Player::update(float dt) {
 	}
 	if (this->getPos().y < 0) this->setPos(Vector2<float>(this->getPos().x, 0));
 	
-	if ((this->getPos().x) + this->getFrame().w > WINDOW_WIDTH / PIXEL_SCALE) {
+	if ((this->getPos().x) + this->getSFrame().w > WINDOW_WIDTH) {
 		this->setPos(
-			Vector2<float>((WINDOW_WIDTH / PIXEL_SCALE) - this->getFrame().w, this->getPos().y)
+			Vector2<float>(WINDOW_WIDTH - this->getSFrame().w, this->getPos().y)
 		);
 	}
-	if ((this->getPos().y) + this->getFrame().h > WINDOW_HEIGHT / PIXEL_SCALE) {
+	if ((this->getPos().y) + this->getSFrame().h > WINDOW_HEIGHT) {
 		this->setPos(
-			Vector2<float>(this->getPos().x, (WINDOW_HEIGHT / PIXEL_SCALE) - this->getFrame().h)
+			Vector2<float>(this->getPos().x, (WINDOW_HEIGHT) - this->getSFrame().h)
 		);
 	}	
 }
@@ -83,12 +77,75 @@ void Player::reactToEvent(const bool* kEvent) {
 	this->shooting = kEvent[SDL_SCANCODE_SPACE];
 	this->setVelocity(
 		Vector2<float>(
-			(15.0f * (kEvent[SDL_SCANCODE_D] - kEvent[SDL_SCANCODE_A])),
-			(-15.0f * (kEvent[SDL_SCANCODE_W] - kEvent[SDL_SCANCODE_S]))
+			(100.0f * (kEvent[SDL_SCANCODE_D] - kEvent[SDL_SCANCODE_A])),
+			(-100.0f * (kEvent[SDL_SCANCODE_W] - kEvent[SDL_SCANCODE_S]))
 		)
 	);	
 }
 
+bool Player::checkAABB(const Entity& e) const {
+	return false;
+}
+
 Player::~Player() {
 	std::cout << "Destroying Player!" << std::endl;
+}
+
+void Player::updateBB() {
+	auto& vel = this->velocity;
+	auto resetBB = [&] () -> void {
+		this->bb.min = Point<float>(this->getPos().x, this->getPos().y);
+		this->bb.max = Point<float>(
+				this->getPos().x + this->getSFrame().w,
+				this->getPos().y + this->getSFrame().h
+				);
+	};
+
+	if (vel.tendingTo(UP)) {
+		this->bb.min = Point<float>(
+				this->getPos().x,
+				this->getPos().y + (7 * PIXEL_SCALE)
+				);
+		this->bb.max = Point<float>(
+				this->getPos().x + this->getSFrame().w,
+				this->getPos().y + this->getSFrame().h
+				);
+	}
+	if (vel.tendingTo(RIGHT)) {
+		this->bb.min = Point<float>(this->getPos().x, this->getPos().y);
+		this->bb.max = Point<float>(
+				this->getPos().x + this->getSFrame().w - (7 * PIXEL_SCALE),
+				this->getPos().y + this->getSFrame().h
+				);
+	}
+	if (vel.tendingTo(RIGHT) && vel.tendingTo(UP)) {
+		resetBB();
+	}
+	if (vel.tendingTo(LEFT)) {
+		this->bb.min = Point<float>(
+				this->getPos().x + (7 * PIXEL_SCALE),
+				this->getPos().y
+				);
+		this->bb.max = Point<float>(
+				this->getPos().x + this->getSFrame().w,
+				this->getPos().y + this->getSFrame().h
+				);
+	}
+	if (vel.tendingTo(LEFT) && vel.tendingTo(UP)) {
+		resetBB();
+	}
+	if (vel.tendingTo(DOWN)) {
+		this->bb.min = Point<float>(this->getPos().x, this->getPos().y);
+		this->bb.max = Point<float>(
+				this->getPos().x + this->getSFrame().w,
+				this->getPos().y + this->getSFrame().h - (7 * PIXEL_SCALE)
+				);
+	}
+	if (vel.tendingTo(DOWN) && vel.tendingTo(LEFT)) {
+		resetBB();
+	}
+	if (vel.tendingTo(DOWN) && vel.tendingTo(RIGHT)) {
+		resetBB();
+	}
+	
 }
