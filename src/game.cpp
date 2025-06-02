@@ -35,11 +35,11 @@ void Game::run() {
 			handleEvents();
 
 			for (Entity* e : this->entities) {
-				e->update(dt);
 				ICollider* col = dynamic_cast<ICollider*>(e); //upcasting
 				if (col){
 					handleCollisions(*col);
 				}
+				e->update(dt);
 			}
 			accumulator -= TIME_STEP;
 		}
@@ -87,7 +87,7 @@ void Game::handleCollisions(ICollider& col) {
 	for (Entity* e : entities) {
 		ICollider* colB = dynamic_cast<ICollider*>(e);
 		if (colB && &col != colB) {
-			col.checkAABB(*e);
+			col.AABB(*e);
 		}
 	}
 }

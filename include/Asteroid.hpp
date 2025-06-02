@@ -10,7 +10,7 @@ class Asteroid : public Entity, public ICollider {
 		using Entity::Entity;
 		void update(float dt) override;
 		void reactToEvent(const bool* kEvent) override;
-		bool checkAABB(const Entity&) const override;
+		void AABB(const Entity&) override;
 		~Asteroid(){}
 };
 

@@ -15,7 +15,7 @@ class Player : public Entity, public ICollider {
 		const Vector2<float>& getVelocity() const;
 		void update(float dt) override;
 		void reactToEvent(const bool* kEvent) override;
-		bool checkAABB(const Entity&) const override;
+		void AABB(const Entity&) override;
 
 		~Player();
 	private:

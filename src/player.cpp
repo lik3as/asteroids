@@ -83,8 +83,50 @@ void Player::reactToEvent(const bool* kEvent) {
 	);	
 }
 
-bool Player::checkAABB(const Entity& e) const {
-	return false;
+void Player::AABB(const Entity& e) {
+	if (
+			this->bb.min.x < e.bb.max.x //true
+			&& this->bb.max.x > e.bb.min.x //false!!
+			&& this->bb.min.y < e.bb.max.y
+			&& this->bb.max.y > e.bb.min.y
+	) {
+		if (this->bb.min.x < e.bb.min.x) {
+			std::cout << "collision from left" << std::endl;
+			this->setVelocity(
+				Vector2<float>(
+					- fabs(this->getVelocity().x * 1.5),
+					this->getVelocity().y
+				)
+			);
+		}
+		else {
+			this->setVelocity(
+				Vector2<float>(
+					+ fabs(this->getVelocity().x * 1.5),
+					this->getVelocity().y
+				)
+			);
+
+		}
+		if (this->bb.max.y < e.bb.max.y) {
+			this->setVelocity(
+				Vector2<float>(
+					this->getVelocity().x,
+					- fabs(this->getVelocity().y * 1.5)
+				)
+			);
+		}
+		else {
+			this->setVelocity(
+				Vector2<float>(
+					this->getVelocity().x,
+					+ fabs(this->getVelocity().y * 1.5)
+				)
+			);
+
+		}
+	}
+
 }
 
 Player::~Player() {
