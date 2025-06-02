@@ -4,5 +4,6 @@
 #define TIME_STEP 0.017f
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 720
+#define PIXEL_SCALE 8
 
 #endif

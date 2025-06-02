@@ -1,13 +1,13 @@
 [
 {
   "directory": "/home/lik3/projects/gamedev/asteroids",
-  "command": "/usr/bin/c++  -I/home/lik3/projects/gamedev/asteroids/include  -o CMakeFiles/app.dir/src/main.cpp.o -c /home/lik3/projects/gamedev/asteroids/src/main.cpp",
+  "command": "/usr/bin/c++  -I/home/lik3/projects/gamedev/asteroids/include  -o CMakeFiles/app.dir/src/main.cpp.o -c /home/lik3/projects/gamedev/asteroids/src/main.cpp -Wabstract -Wall",
   "file": "/home/lik3/projects/gamedev/asteroids/src/main.cpp",
   "output": "CMakeFiles/app.dir/src/main.cpp.o"
 },
 {
   "directory": "/home/lik3/projects/gamedev/asteroids",
-  "command": "/usr/bin/c++  -I/home/lik3/projects/gamedev/asteroids/include  -o CMakeFiles/app.dir/src/render_window.cpp.o -c /home/lik3/projects/gamedev/asteroids/src/render_window.cpp",
+  "command": "/usr/bin/c++  -I/home/lik3/projects/gamedev/asteroids/include  -o CMakeFiles/app.dir/src/render_window.cpp.o -c /home/lik3/projects/gamedev/asteroids/src/render_window.cpp -Wabstract",
   "file": "/home/lik3/projects/gamedev/asteroids/src/render_window.cpp",
   "output": "CMakeFiles/app.dir/src/render_window.cpp.o"
 }

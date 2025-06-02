@@ -7,26 +7,48 @@ void Player::setVelocity(Vector2<float>&& m_vec) {
 	m_vec.y = 0;
 	
 	int x = 0;
-	auto& vel = this->velocity;	
-	if (
-		 vel == (Vector2<float>(fabs(vel.x), - fabs(vel.y)))
-		|| vel == (Vector2<float>(- fabs(vel.x), - fabs(vel.y)))
-		|| vel == (Vector2<float>(1.0f, - fabs(vel.y)))
-	) {
-		//std::cout << this->velocity.y << " up " << std::endl;
+	double roatation = 0;
+	auto& vel = this->velocity;
+
+	if (vel.tendingTo(UP)) {
+		rotation = 0.0f;
 		x = 32;
 	}
-	if (
-		vel == (Vector2<float>(0.0f, 0.0f))
-		|| vel == (Vector2<float>(0.0f, fabs(vel.y)))
-		|| vel == (Vector2<float>(fabs(vel.x), fabs(vel.y)))
-		|| vel == (Vector2<float>(- fabs(vel.x), fabs(vel.y)))
-	) {
-		//std::cout << this->velocity.y << " down " << std::endl;
-		x = 0;
+	if (vel.tendingTo(RIGHT)) {
+		rotation = 90.0f;
+		x = 32;
 	}
+	if (vel.tendingTo(RIGHT) && vel.tendingTo(UP)) {
+		rotation = 45.0f;
+	}
+	if (vel.tendingTo(LEFT)) {
+		rotation = -90.0f;
+		x = 32;
+	}
+	if (vel.tendingTo(LEFT) && vel.tendingTo(UP)) {
+		rotation = -45.0f;
+	}
+	if (vel.tendingTo(REST)) {
+		x = 0;
+		rotation = 0;
+	}
+	if (vel.tendingTo(DOWN)) {
+		x = 32;
+		rotation = 180.0f;
+	}
+	if (vel.tendingTo(DOWN) && vel.tendingTo(LEFT)) {
+		x = 32;
+		rotation = 180.0f + 45.0f;
+
+	}
+	if (vel.tendingTo(DOWN) && vel.tendingTo(RIGHT)) {
+		x = 32;
+		rotation = 180.0f - 45.0f;
+	}
+
 	x += (this->shooting * 16);
 	this->setSprite(x, 0);
+	this->rotation = rotation;
 }
 
 const Vector2<float>& Player::getVelocity() const {
@@ -39,18 +61,25 @@ void Player::update(float dt) {
 		(float) (this->getVelocity().y * dt)
 	));
 
-	if (this->getPos().x < 0) this->setPos(Vector2<float>(0, this->getPos().y));
+	//AABB collision!!!
+	if (this->getPos().x < 0) {
+		this->setPos(Vector2<float>(0, this->getPos().y));
+	}
 	if (this->getPos().y < 0) this->setPos(Vector2<float>(this->getPos().x, 0));
 	
-	if ((this->getPos().x * 10) + this->getFrame().w > WINDOW_WIDTH) {
-		this->setPos(Vector2<float>((WINDOW_WIDTH / 10) - this->getFrame().w, this->getPos().y));
+	if ((this->getPos().x) + this->getFrame().w > WINDOW_WIDTH / PIXEL_SCALE) {
+		this->setPos(
+			Vector2<float>((WINDOW_WIDTH / PIXEL_SCALE) - this->getFrame().w, this->getPos().y)
+		);
 	}
-	if ((this->getPos().y * 10) + this->getFrame().h > WINDOW_HEIGHT) {
-		this->setPos(Vector2<float>(this->getPos().x, (WINDOW_HEIGHT / 10) - this->getFrame().h));
+	if ((this->getPos().y) + this->getFrame().h > WINDOW_HEIGHT / PIXEL_SCALE) {
+		this->setPos(
+			Vector2<float>(this->getPos().x, (WINDOW_HEIGHT / PIXEL_SCALE) - this->getFrame().h)
+		);
 	}	
 }
 
-void Player::reactTo(const bool* kEvent) {
+void Player::reactToEvent(const bool* kEvent) {
 	this->shooting = kEvent[SDL_SCANCODE_SPACE];
 	this->setVelocity(
 		Vector2<float>(

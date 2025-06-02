@@ -14,7 +14,7 @@ class Player : public Entity {
 		void setVelocity(Vector2<float>&& vec);
 		const Vector2<float>& getVelocity() const;
 		void update(float dt) override;
-		void reactTo(const bool* kEvent) override;
+		void reactToEvent(const bool* kEvent) override;
 
 		~Player();
 	private:

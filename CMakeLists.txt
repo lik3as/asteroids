@@ -12,3 +12,4 @@ add_executable(${TARGET_NAME} ${SRC_FILES})
 
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_link_libraries(${TARGET_NAME} SDL3 SDL3_image)
+target_compile_options(${TARGET_NAME} PRIVATE -Wall)

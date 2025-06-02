@@ -23,11 +23,23 @@ void RenderWindow::render(const Entity& e) {
 	src = e.getFrame();
 
 	SDL_FRect dst;
-	dst.x = e.getPos().x * 8;
-	dst.y = e.getPos().y * 8;
-	dst.w = e.getFrame().w * 8;
-	dst.h = e.getFrame().h * 8;
+	dst.x = e.getPos().x * PIXEL_SCALE;
+	dst.y = e.getPos().y * PIXEL_SCALE;
+	dst.w = e.getFrame().w * PIXEL_SCALE;
+	dst.h = e.getFrame().h * PIXEL_SCALE;
 	SDL_RenderTexture(renderer, e.getTexture(), &src, &dst);
+}
+
+void RenderWindow::render(const Entity& e, const double& angle) {
+	SDL_FRect src;
+	src = e.getFrame();
+
+	SDL_FRect dst;
+	dst.x = e.getPos().x * PIXEL_SCALE;
+	dst.y = e.getPos().y * PIXEL_SCALE;
+	dst.w = e.getFrame().w * PIXEL_SCALE;
+	dst.h = e.getFrame().h * PIXEL_SCALE;
+	SDL_RenderTextureRotated(renderer, e.getTexture(), &src, &dst, angle, NULL, SDL_FLIP_NONE);
 }
 
 void RenderWindow::cleanUp() {
@@ -41,6 +53,15 @@ void RenderWindow::clear() {
 
 void RenderWindow::display() {
 	SDL_RenderPresent(renderer);
+}
+
+void RenderWindow::debug(const char* str, float x, float y) {
+	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
+	if(!SDL_RenderDebugText(renderer, x, y, str)) {
+		std::cout << "SDL Error while debugging: " << SDL_GetError() << std::endl;
+	}
+	SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+
 }
 
 int RenderWindow::getRefreshRate() {

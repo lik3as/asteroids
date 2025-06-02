@@ -9,7 +9,7 @@ class Entity {
 	public:
 		Entity(const Vector2<int>&& cut, SDL_Texture* tex);
 		virtual void update(float dt) = 0;
-		virtual void reactTo(const bool* kEvent) = 0;
+		virtual void reactToEvent(const bool* kEvent) = 0;
 
 		void setPos(Vector2<float>&& pos);
 		Vector2<float> getPos() const;
@@ -17,6 +17,7 @@ class Entity {
 		const SDL_FRect& getFrame() const;
 
 		virtual ~Entity();
+		double rotation = 0.0f;
 	protected:
 		void setSprite(int x, int y);
 	private:

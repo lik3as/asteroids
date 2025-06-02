@@ -8,7 +8,7 @@ bool Game::gameIsRunning = true;
 Game::Game()
 {	
 	entities.push_back(
-		new Player(Vector2<int>(15, 0), window.loadTexture("res/gfx/spaceship.png")) //already an rvalue!!!
+		new Player(Vector2<int>(0, 0), window.loadTexture("res/gfx/spaceship.png"))//already an rvalue!
 	);
 }
 
@@ -27,6 +27,7 @@ void Game::run() {
 		
 		while(accumulator >= TIME_STEP) {
 			handleEvents();
+
 			for (Entity* e : this-> entities) {
 				e->update(dt);
 			}
@@ -34,8 +35,29 @@ void Game::run() {
 		}
 
 		window.clear();
+
+		char buf[7];
+		gcvt(dt, 5, buf);
+		window.debug(buf, 10.0f, 10.0f);
+
 		for (Entity* e : this->entities) {
-			window.render(*e);
+			if(e->rotation != 0.0f) {
+				window.render(*e, e->rotation); //using SDL_RenderTextureRotated -> more cpu
+			} else {
+				window.render(*e); //less cpu usage SDL_RenderTexture
+			}
+			char bufX[20];	
+			char bufY[20];	
+			bufX[0] = 'X';
+			bufX[1] = ':';
+			bufX[2] = ' ';
+			gcvt(e->getPos().x, 7, &bufX[3]);
+			bufY[0] = 'Y';
+			bufY[1] = ':';
+			bufY[2] = ' ';
+			gcvt(e->getPos().y, 7, &bufY[3]);
+			window.debug(bufX, 10.0f,20.0f);
+			window.debug(bufY, 10.0f,30.0f);
 		}
 		window.display();
 		
@@ -60,7 +82,7 @@ void Game::handleEvents() {
 
 	const bool* kEvent = SDL_GetKeyboardState(NULL);
 	for (Entity* e : this->entities) {
-		e->reactTo(kEvent);
+		e->reactToEvent(kEvent);
 	}
 }
 

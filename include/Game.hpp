@@ -7,8 +7,8 @@
 #include "Constants.hpp"
 #include "RenderWindow.hpp"
 #include "Player.hpp"
-#include "Math.hpp"
 #include "Entity.hpp"
+#include "Math.hpp"
 
 class Game {
 	public:
