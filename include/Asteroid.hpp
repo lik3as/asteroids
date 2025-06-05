@@ -7,8 +7,9 @@
 
 class Asteroid : public Entity, public ICollider {
 	public:
-		using Entity::Entity;
+		Asteroid(int cropX, int cropY, SDL_Texture* tex);
 		void update(float dt) override;
+		void updateBB() override;
 		void reactToEvent(const bool* kEvent) override;
 		void AABB(const Entity&) override;
 		~Asteroid(){}

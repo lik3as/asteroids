@@ -11,7 +11,8 @@ Game::Game()
 		new Player(0, 0, window.loadTexture("res/gfx/spaceship.png"))//already an rvalue!
 	);
 
-	auto asteroid = new Asteroid(0,0, window.loadTexture("res/gfx/asteroid.png"));
+	Entity* asteroid = new Asteroid(0,0, window.loadTexture("res/gfx/asteroid.png"));
+	//this line is fock
 	asteroid->setPos(Vector2<float>(WINDOW_HEIGHT / 2, WINDOW_HEIGHT / 2));
 	entities.push_back(
 			std::move(asteroid)

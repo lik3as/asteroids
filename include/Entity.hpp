@@ -24,8 +24,8 @@ class Entity {
 		SDL_FRect getFrame() const;
 		SDL_FRect getSFrame() const;
 
-		double rotation = 0.0f;
 		BoundingBox bb;
+		double rotation = 0.0f;
 
 		virtual ~Entity();
 	protected:
