@@ -174,7 +174,7 @@ void Player::updateBB() {
 	if (vel.tendingTo(UP)) {
 		this->bb.min = Point<float>(
 				this->getPos().x,
-				this->getPos().y + (7 * PIXEL_SCALE)
+				this->getPos().y + (8 * PIXEL_SCALE)
 				);
 		this->bb.max = Point<float>(
 				this->getPos().x + this->getSFrame().w,
@@ -184,7 +184,7 @@ void Player::updateBB() {
 	if (vel.tendingTo(RIGHT)) {
 		this->bb.min = Point<float>(this->getPos().x, this->getPos().y);
 		this->bb.max = Point<float>(
-				this->getPos().x + this->getSFrame().w - (7 * PIXEL_SCALE),
+				this->getPos().x + this->getSFrame().w - (8 * PIXEL_SCALE),
 				this->getPos().y + this->getSFrame().h
 				);
 	}
@@ -193,7 +193,7 @@ void Player::updateBB() {
 	}
 	if (vel.tendingTo(LEFT)) {
 		this->bb.min = Point<float>(
-				this->getPos().x + (7 * PIXEL_SCALE),
+				this->getPos().x + (8 * PIXEL_SCALE),
 				this->getPos().y
 				);
 		this->bb.max = Point<float>(
@@ -208,7 +208,7 @@ void Player::updateBB() {
 		this->bb.min = Point<float>(this->getPos().x, this->getPos().y);
 		this->bb.max = Point<float>(
 				this->getPos().x + this->getSFrame().w,
-				this->getPos().y + this->getSFrame().h - (7 * PIXEL_SCALE)
+				this->getPos().y + this->getSFrame().h - (8 * PIXEL_SCALE)
 				);
 	}
 	if (vel.tendingTo(DOWN) && vel.tendingTo(LEFT)) {
